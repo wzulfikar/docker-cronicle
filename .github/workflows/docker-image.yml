@@ -3,7 +3,8 @@ on:
   push:
     branches: [ main, '*' ]
 jobs:
-  setup-docker:
+  build-docker:
+    name: build-docker
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -22,19 +23,6 @@ jobs:
 
     - name: Login to DockerHub Registry
       run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
-  
-  build-default:
-    runs-on: ubuntu-latest
-    needs: [setup-docker]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build and push multi-platform Docker image
-      run: make multi-default
 
-  build-arm64:
-    runs-on: ubuntu-latest
-    needs: [setup-docker]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build and push multi-platform Docker image
-      run: make multi-arm64
+    - name: Build and push multi-platform Docker image for Cronicle
+      run: make -j 2 multi-default multi-arm64
