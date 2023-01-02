@@ -1,0 +1,28 @@
+name: Docker Image CI
+on:
+  push:
+    branches: [ main, '*' ]
+jobs:
+  cronicle:
+    name: cronicle
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      with:
+        platforms: all
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
+
+    - name: Build and push multi-platform Docker image for Cronicle
+      run: make multi
