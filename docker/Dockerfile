@@ -1,5 +1,6 @@
 FROM node:18-alpine AS Builder
 ENV CRONICLE_VERSION=0.9.17
+
 WORKDIR /opt/cronicle
 COPY Cronicle-${CRONICLE_VERSION}.tar.gz /tmp/
 RUN tar zxvf /tmp/Cronicle-${CRONICLE_VERSION}.tar.gz -C /tmp/ && \
@@ -7,9 +8,10 @@ RUN tar zxvf /tmp/Cronicle-${CRONICLE_VERSION}.tar.gz -C /tmp/ && \
     rm -rf /tmp/* && \
     npm install --verbose --registry=https://registry.npmmirror.com
 COPY ./patches /tmp/patches
+RUN apk -U upgrade
+RUN apk add patch
 RUN patch -p3 < /tmp/patches/engine.patch lib/engine.js
 COPY docker-entrypoint.js ./bin/
-
 
 FROM node:18-alpine
 RUN apk add procps curl

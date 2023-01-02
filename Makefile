@@ -9,7 +9,7 @@ push:
 	docker push $(IMAGE_NAME):$(IMAGE_VERSION)
 
 multi:
-	docker buildx create --platform $(PLATFORM) --name multibuild4 --use
+	docker buildx create --platform $(PLATFORM) --name multibuild --use
 	docker buildx inspect multibuild --bootstrap
 	docker buildx build --platform $(PLATFORM) -t $(IMAGE_NAME):$(IMAGE_VERSION) --push -f ./docker/Dockerfile ./docker
 	docker buildx rm multibuild
