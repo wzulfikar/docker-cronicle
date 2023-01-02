@@ -1,4 +1,4 @@
-FROM node:18 AS Builder
+FROM node:18-alpine AS Builder
 ENV CRONICLE_VERSION=0.9.17
 WORKDIR /opt/cronicle
 COPY Cronicle-${CRONICLE_VERSION}.tar.gz /tmp/
