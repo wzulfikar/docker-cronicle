@@ -1,6 +1,6 @@
 IMAGE_NAME=wzulfikar/cronicle
 IMAGE_VERSION=latest
-PLATFORM=linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+PLATFORM=linux/amd64,linux/arm/v6,linux/arm/v7
 
 docker:
 	docker build --pull -t $(IMAGE_NAME):$(IMAGE_VERSION) .
