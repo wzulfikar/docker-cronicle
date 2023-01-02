@@ -25,4 +25,4 @@ jobs:
       run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
 
     - name: Build and push multi-platform Docker image for Cronicle
-      run: make -j 2 multi-default multi-arm64
+      run: "parallel make ::: multi-default multi-arm64"
